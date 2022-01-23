@@ -101,8 +101,8 @@
       
           <Separator prefWidth="-1.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="14" />
       
-          <Label text="%prefs.recent.items" GridPane.columnIndex="0" GridPane.rowIndex="16" />
-          <ChoiceBox fx:id="recentItemsSize" GridPane.columnIndex="1" GridPane.rowIndex="16">
+          <Label text="%prefs.recent.items" GridPane.columnIndex="0" GridPane.rowIndex="15" />
+          <ChoiceBox fx:id="recentItemsSize" GridPane.columnIndex="1" GridPane.rowIndex="15">
             <items>
               <FXCollections fx:factory="observableArrayList">
                 <String fx:value="Item 1" />
@@ -112,10 +112,7 @@
             </items>
           </ChoiceBox>
       
-          <Separator prefWidth="-1.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="17" />
-      
-          <Label text="%prefs.animate.accordion" GridPane.columnIndex="0" GridPane.rowIndex="18" />
-          <CheckBox fx:id="animateAccordion" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="18" />
+          <Separator prefWidth="-1.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="18" />
       
           <Label text="%prefs.wildcard.import" GridPane.columnIndex="0" GridPane.rowIndex="19" />
           <CheckBox fx:id="wildcardImports" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="19" />
@@ -123,8 +120,10 @@
           <Separator prefWidth="-1.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="20" />
       
           <Button onAction="#resetToDefaultAction" prefWidth="-1.0" text="%prefs.reset.default" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="21" />
-            <CheckBox fx:id="showWelcomeDialogAtStart" layoutX="222.0" layoutY="564.0" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="15" />
-            <Label layoutX="108.0" layoutY="520.0" text="%prefs.welcome.dialog.show" GridPane.rowIndex="15" />
+            <CheckBox fx:id="showWelcomeDialogAtStart" layoutX="222.0" layoutY="564.0" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="17" />
+            <Label layoutX="108.0" layoutY="520.0" text="%prefs.welcome.dialog.show" GridPane.rowIndex="17" />
+            <Label layoutX="74.0" layoutY="592.0" text="%prefs.animate.accordion" GridPane.rowIndex="16" />
+            <CheckBox fx:id="animateAccordion" layoutX="222.0" layoutY="592.0" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="16" />
         </children>
         <columnConstraints>
           <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
@@ -149,8 +148,8 @@
           <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="NEVER" />
           <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="NEVER" />
           <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="NEVER" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
             <RowConstraints />
+            <RowConstraints minHeight="-Infinity" />
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
