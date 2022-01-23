@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, 2019, Gluon and/or its affiliates.
+ * Copyright (c) 2016, 2022, Gluon and/or its affiliates.
  * Copyright (c) 2012, 2014, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
@@ -49,6 +49,7 @@ import static com.oracle.javafx.scenebuilder.kit.preferences.PreferencesControll
 
 import static com.oracle.javafx.scenebuilder.app.preferences.PreferencesController.ACCORDION_ANIMATION;
 import static com.oracle.javafx.scenebuilder.app.preferences.PreferencesController.CSS_TABLE_COLUMNS_ORDERING_REVERSED;
+import static com.oracle.javafx.scenebuilder.app.preferences.PreferencesController.SHOW_WELCOME_DIALOG_AT_START;
 import static com.oracle.javafx.scenebuilder.app.preferences.PreferencesController.RECENT_ITEMS;
 import static com.oracle.javafx.scenebuilder.app.preferences.PreferencesController.RECENT_ITEMS_SIZE;
 import static com.oracle.javafx.scenebuilder.app.preferences.PreferencesController.TOOL_THEME;
@@ -135,6 +136,8 @@ public class PreferencesWindowController extends AbstractFxmlWindowController {
     private ChoiceBox<EditorPlatform.Theme> themes;
     @FXML
     private ChoiceBox<EditorPlatform.GluonSwatch> gluonSwatch;
+    @FXML
+    private CheckBox showWelcomeDialogAtStart;
     @FXML
     private CheckBox animateAccordion;
     @FXML
@@ -246,6 +249,10 @@ public class PreferencesWindowController extends AbstractFxmlWindowController {
         gluonSwatch.getItems().setAll(gluonSwatches);
         gluonSwatch.setValue(recordGlobal.getSwatch());
         gluonSwatch.getSelectionModel().selectedItemProperty().addListener(new SwatchListener());
+        
+        // Wildcard Imports
+        showWelcomeDialogAtStart.setSelected(recordGlobal.isShowWelcomeDialogAtStart());
+        showWelcomeDialogAtStart.selectedProperty().addListener(new ShowWelcomeDialogListener());
         
         // Number of open recent items
         recentItemsSize.getItems().setAll(recentItemsSizes);
@@ -544,6 +551,20 @@ public class PreferencesWindowController extends AbstractFxmlWindowController {
         @Override
         public void handleError(String warningKey, Object... arguments) {
             // Log a warning in message bar
+        }
+    }
+
+    private static class ShowWelcomeDialogListener implements ChangeListener<Boolean> {
+
+        @Override
+        public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+            final PreferencesController preferencesController
+                    = PreferencesController.getSingleton();
+            final PreferencesRecordGlobal recordGlobal
+                    = preferencesController.getRecordGlobal();
+            // Update preferences
+            recordGlobal.setShowWelcomeDialogAtStart(newValue);
+            recordGlobal.writeToJavaPreferences(SHOW_WELCOME_DIALOG_AT_START);
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, 2017 Gluon and/or its affiliates.
+ * Copyright (c) 2016, 2022 Gluon and/or its affiliates.
  * Copyright (c) 2012, 2014, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
@@ -60,6 +60,7 @@ public class PreferencesController extends PreferencesControllerBase{
     static final String TOOL_THEME = "TOOL_THEME"; //NOI18N
     static final String CSS_TABLE_COLUMNS_ORDERING_REVERSED = "CSS_TABLE_COLUMNS_ORDERING_REVERSED"; //NOI18N
 
+    static final String SHOW_WELCOME_DIALOG_AT_START = "SHOW_WELCOME_DIALOG_AT_START"; //NOI18N
     static final String RECENT_ITEMS = "RECENT_ITEMS"; //NOI18N
     static final String RECENT_ITEMS_SIZE = "RECENT_ITEMS_SIZE"; //NOI18N
 

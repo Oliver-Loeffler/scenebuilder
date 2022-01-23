@@ -366,7 +366,7 @@ public class SceneBuilderApp extends Application implements AppPlatform.AppNotif
      */
     @Override
     public void handleLaunch(List<String> files) {
-        boolean showWelcomeDialog = files.isEmpty();
+        boolean noFilesPresent = files.isEmpty();
 
         setApplicationUncaughtExceptionHandler();
 
@@ -396,7 +396,7 @@ public class SceneBuilderApp extends Application implements AppPlatform.AppNotif
                     }
                     ImportingGluonControlsAlert alert = new ImportingGluonControlsAlert(dwc.getStage());
                     AppSettings.setWindowIcon(alert);
-                    if (showWelcomeDialog) {
+                    if (noFilesPresent) {
                         alert.initOwner(WelcomeDialogWindowController.getInstance().getStage());
                     }
                     alert.showAndWait();
@@ -411,7 +411,7 @@ public class SceneBuilderApp extends Application implements AppPlatform.AppNotif
 
         sendTrackingStartupInfo();
 
-        if (showWelcomeDialog) {
+        if (noFilesPresent) {
             // Creates an empty document
             final DocumentWindowController newWindow = makeNewWindow();
             newWindow.updateWithDefaultContent();
@@ -433,9 +433,14 @@ public class SceneBuilderApp extends Application implements AppPlatform.AppNotif
                 });
             });
 
-            // Unless we're on a Mac we're starting SB directly (fresh start)
-            // so we're not opening any file and as such we should show the Welcome Dialog
-            WelcomeDialogWindowController.getInstance().getStage().show();
+            boolean showWelcome = PreferencesController.getSingleton()
+                                                       .getRecordGlobal()
+                                                       .isShowWelcomeDialogAtStart();
+            if (showWelcome) {
+                // Unless we're on a Mac we're starting SB directly (fresh start)
+                // so we're not opening any file and as such we should show the Welcome Dialog
+                WelcomeDialogWindowController.getInstance().getStage().show();
+            }
 
         } else {
             // Open files passed as arguments by the platform

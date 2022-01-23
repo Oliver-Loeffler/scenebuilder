@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, 2019, Gluon and/or its affiliates.
+ * Copyright (c) 2016, 2022, Gluon and/or its affiliates.
  * Copyright (c) 2012, 2014, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
@@ -84,6 +84,7 @@ public class PreferencesRecordGlobal extends PreferencesRecordGlobalBase {
      *                                                                         *
      **************************************************************************/
 
+    
     // Default values
     static final double DEFAULT_ROOT_CONTAINER_HEIGHT = 400;
     static final double DEFAULT_ROOT_CONTAINER_WIDTH = 600;
@@ -96,6 +97,7 @@ public class PreferencesRecordGlobal extends PreferencesRecordGlobalBase {
     static final boolean DEFAULT_CSS_TABLE_COLUMNS_ORDERING_REVERSED = false;
 
     static final int DEFAULT_RECENT_ITEMS_SIZE = 15;
+    static final boolean DEFAULT_SHOW_WELCOME_DIALOG = true;
     static final boolean DEFAULT_ACCORDION_ANIMATION = true;
     static final boolean DEFAULT_WILDCARD_IMPORTS = false;
 
@@ -111,6 +113,7 @@ public class PreferencesRecordGlobal extends PreferencesRecordGlobalBase {
     private DisplayOption hierarchyDisplayOption = DEFAULT_HIERARCHY_DISPLAY_OPTION;
     private boolean cssTableColumnsOrderingReversed = DEFAULT_CSS_TABLE_COLUMNS_ORDERING_REVERSED;
     private int recentItemsSize = DEFAULT_RECENT_ITEMS_SIZE;
+    private boolean showWelcomeDialogAtStart = DEFAULT_SHOW_WELCOME_DIALOG;
     private boolean accordionAnimation = DEFAULT_ACCORDION_ANIMATION;
     private boolean wildcardImports = DEFAULT_WILDCARD_IMPORTS;
     private final List<String> recentItems = new ArrayList<>();
@@ -224,6 +227,14 @@ public class PreferencesRecordGlobal extends PreferencesRecordGlobalBase {
         while (recentItems.size() > recentItemsSize) {
             recentItems.remove(recentItems.size() - 1);
         }
+    }
+
+    public void setShowWelcomeDialogAtStart(boolean showDialog) {;
+        showWelcomeDialogAtStart = showDialog;
+    }
+    
+    public boolean isShowWelcomeDialogAtStart() {;
+        return showWelcomeDialogAtStart;
     }
 
     public List<String> getRecentItems() {
@@ -417,6 +428,10 @@ public class PreferencesRecordGlobal extends PreferencesRecordGlobalBase {
                 CSS_TABLE_COLUMNS_ORDERING_REVERSED, DEFAULT_CSS_TABLE_COLUMNS_ORDERING_REVERSED);
         setCssTableColumnsOrderingReversed(reversed);
 
+        // Show Welcome Dialog at program start
+        final boolean showDialogAtStart = applicationRootPreferences.getBoolean(SHOW_WELCOME_DIALOG_AT_START,
+                DEFAULT_SHOW_WELCOME_DIALOG);
+        setShowWelcomeDialogAtStart(showDialogAtStart);
         // Recent items size
         final int size = applicationRootPreferences.getInt(
                 RECENT_ITEMS_SIZE, DEFAULT_RECENT_ITEMS_SIZE);
@@ -488,6 +503,8 @@ public class PreferencesRecordGlobal extends PreferencesRecordGlobalBase {
             case CSS_TABLE_COLUMNS_ORDERING_REVERSED:
                 applicationRootPreferences.putBoolean(CSS_TABLE_COLUMNS_ORDERING_REVERSED, isCssTableColumnsOrderingReversed());
                 break;
+            case SHOW_WELCOME_DIALOG_AT_START:
+                applicationRootPreferences.putBoolean(SHOW_WELCOME_DIALOG_AT_START, isShowWelcomeDialogAtStart());
             case RECENT_ITEMS_SIZE:
                 applicationRootPreferences.putInt(RECENT_ITEMS_SIZE, getRecentItemsSize());
                 break;
