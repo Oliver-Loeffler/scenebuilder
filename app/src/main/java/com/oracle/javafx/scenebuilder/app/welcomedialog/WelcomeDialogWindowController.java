@@ -236,6 +236,7 @@ public class WelcomeDialogWindowController extends TemplatesBaseWindowController
             question.setTitle(I18N.getString("alert.welcome.file.not.found.title"));
             question.setOKButtonTitle(I18N.getString("alert.welcome.file.not.found.okay"));
         }
+        question.setCancelButtonTitle(I18N.getString("alert.welcome.file.not.found.no"));
         question.setMessage(shortMessage.toString());
         question.setDetails(withPath);
         return question;
