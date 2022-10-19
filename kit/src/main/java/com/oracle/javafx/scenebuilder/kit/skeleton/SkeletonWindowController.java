@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, 2021, Gluon and/or its affiliates.
+ * Copyright (c) 2016, 2022, Gluon and/or its affiliates.
  * Copyright (c) 2012, 2014, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.oracle.javafx.scenebuilder.kit.editor.EditorController;
+import com.oracle.javafx.scenebuilder.kit.editor.EditorPlatform;
 import com.oracle.javafx.scenebuilder.kit.editor.panel.util.AbstractFxmlWindowController;
 import com.oracle.javafx.scenebuilder.kit.fxom.FXOMDocument;
 import com.oracle.javafx.scenebuilder.kit.i18n.I18N;
@@ -43,12 +44,17 @@ import com.oracle.javafx.scenebuilder.kit.i18n.I18N;
 import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
+import javafx.scene.input.KeyCharacterCombination;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -99,7 +105,9 @@ public class SkeletonWindowController extends AbstractFxmlWindowController {
     private boolean dirty = false;
 
     private final String documentName;
-
+    private final KeyCharacterCombination copyAccelerator;
+    private EventHandler<KeyEvent> keyEventHandler;
+    
     public SkeletonWindowController(EditorController editorController, String documentName, Stage owner) {
         super(SkeletonWindowController.class.getResource("SkeletonWindow.fxml"), I18N.getBundle(), owner); //NOI18N
         this.editorController = editorController;
@@ -120,7 +128,33 @@ public class SkeletonWindowController extends AbstractFxmlWindowController {
         if (editorController.getFxomDocument() != null) {
             editorController.getFxomDocument().sceneGraphRevisionProperty().addListener(fxomDocumentRevisionListener);
         }
+        
+        this.copyAccelerator = getCopyToClipboardKeyAccelerator();
     }
+
+    private KeyCharacterCombination getCopyToClipboardKeyAccelerator() {
+        if (EditorPlatform.IS_MAC) {
+            return new KeyCharacterCombination("c", KeyCombination.META_DOWN);
+        }
+        return new KeyCharacterCombination("c", KeyCombination.CONTROL_DOWN);
+    }
+
+    private EventHandler<KeyEvent> getCopyKeyEventHandler() {
+        if (EditorPlatform.IS_MAC) {
+            return event->{
+                if (event.getCode().equals(KeyCode.C) && event.isMetaDown()) {
+                    this.onCopyAction(null);
+                    event.consume();
+                }};
+            }
+        else {
+            return event->{
+                if (event.getCode().equals(KeyCode.C) && event.isControlDown()) {
+                    this.onCopyAction(null);
+                    event.consume();
+                }};
+            }
+        };
 
     @Override
     public void onCloseRequest(WindowEvent event) {
@@ -130,7 +164,11 @@ public class SkeletonWindowController extends AbstractFxmlWindowController {
     @Override
     public void openWindow() {
         super.openWindow();
-
+        if (keyEventHandler == null) {
+            keyEventHandler = getCopyKeyEventHandler();
+            this.textArea.addEventFilter(KeyEvent.KEY_PRESSED,keyEventHandler);
+            getStage().getScene().getAccelerators().put(copyAccelerator, ()->this.onCopyAction(null));
+        }
         if (dirty) {
             update();
         }
