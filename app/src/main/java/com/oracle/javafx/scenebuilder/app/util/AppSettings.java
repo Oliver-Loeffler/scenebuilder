@@ -66,9 +66,9 @@ public class AppSettings {
 
     private static String sceneBuilderVersion;
     private static String latestVersion;
-
     private static String latestVersionText;
     private static String latestVersionAnnouncementURL;
+    private static boolean isUpdateAvailable = false;
 
     private static final JsonReaderFactory readerFactory = Json.createReaderFactory(null);
 
@@ -83,8 +83,8 @@ public class AppSettings {
                 sbProps.load(in);
                 sceneBuilderVersion = sbProps.getProperty("build.version", "UNSET");
             }
-        } catch (IOException e) {
-            Logger.getLogger(AppSettings.class.getName()).log(Level.WARNING, "Cannot init SB version:", e);
+        } catch (IOException ex) {
+            Logger.getLogger(AppSettings.class.getName()).log(Level.SEVERE, "Failed to load \"about.propertties\" resource.", ex);
         }
     }
 
@@ -116,6 +116,10 @@ public class AppSettings {
         return false;
     }
 
+    public static boolean isUpdateAvailable() {
+        return isUpdateAvailable;
+    }
+
     public static void getLatestVersion(Consumer<String> consumer) {
 
         if (latestVersion == null) {
@@ -133,11 +137,17 @@ public class AppSettings {
                 try (InputStream inputStream = url.openStream()) {
                     prop.load(inputStream);
                     onlineVersionNumber = prop.getProperty(LATEST_VERSION_NUMBER_PROPERTY);
-
-                } catch (IOException e) {
-                    Logger.getLogger(AppSettings.class.getName()).log(Level.WARNING, "Failed to load latest version number property: ", e);
+                } catch (IOException ex) {
+                    Logger.getLogger(AppSettings.class.getName()).log(Level.SEVERE, "Failed retrieve latest version information.", ex);
                 }
                 latestVersion = onlineVersionNumber;
+
+                try {
+                    isUpdateAvailable = isCurrentVersionLowerThan(latestVersion);
+                } catch (NumberFormatException ex) {
+                    Logger.getLogger(AppSettings.class.getName()).log(Level.SEVERE, "Failed to load parse latest version number.", ex);
+                }
+
                 consumer.accept(latestVersion);
             }, "GetLatestVersion").start();
         } else {
@@ -161,11 +171,19 @@ public class AppSettings {
                 JsonObject announcementObject = object.getJsonObject("announcement");
                 latestVersionText = announcementObject.getString("text");
                 latestVersionAnnouncementURL = announcementObject.getString("url");
+<<<<<<< HEAD
             } catch (IOException e) {
                 Logger.getLogger(AppSettings.class.getName()).log(Level.WARNING, "Failed to read latest version json: ", e);
             }
         } catch (MalformedURLException e) {
             Logger.getLogger(AppSettings.class.getName()).log(Level.WARNING, "Failed to construct latest version info URL: ", e);
+=======
+            } catch (IOException ex) {
+                Logger.getLogger(AppSettings.class.getName()).log(Level.SEVERE, "Failed to retrieve or decode latest version information.", ex);
+            }
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(AppSettings.class.getName()).log(Level.SEVERE, "Failed to parse latest version information URL", ex);
+>>>>>>> 4e86eb48ff9f7f5eb690c2f56ae72df6217e5c13
         }
     }
 
