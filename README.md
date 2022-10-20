@@ -5,7 +5,7 @@ The difference to Gluon Scene Builder is, that this version has basically all op
 
 ## October 2022 highlights:
 
-* Binding expression edition support (no resolution / string only) by @treilhes
+* Binding expression support (no resolution / string only) by @treilhes
 * Library refresh by @luca-domenichini
 * Backward navigation when walking through scene graph nodes. One goes back (upwards) in the graph by pressing `ESC`. by @luca-domenichini
 * Nice menu for update check by @gargoyle
