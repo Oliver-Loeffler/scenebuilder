@@ -1,4 +1,9 @@
-# Gluon Scene Builder #
+# Scene Builder (Open Test) #
+
+This version of Scene Builder is a fork of the most recent version of Gluon Scene Builder.
+The difference to Gluon Scene Builder is, that this version has basically all open PRs included.
+
+## What is Scene Builder ##
 
 Gluon [Scene Builder](http://gluonhq.com/products/scene-builder/) is a drag and drop UI designer tool allowing rapid desktop and mobile app development.
 Scene Builder separates design from logic, allowing team members to quickly and easily focus on their specific aspect of application development.
