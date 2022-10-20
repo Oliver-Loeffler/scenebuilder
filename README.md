@@ -1,7 +1,25 @@
-# Scene Builder (Leading Edge) #
+# Scene Builder Leading Edge - October 2022#
 
 This version of Scene Builder is a fork of the most recent version of Gluon Scene Builder.
 The difference to Gluon Scene Builder is, that this version has basically all open PRs included.
+
+Key features are:
+
+* Binding expression edition support (no resolution / string only) by @treilhes
+* Library refresh by @luca-domenichini
+* Backward navigation when walking through scene graph nodes. One goes back (upwards) in the graph by pressing `ESC`. by @luca-domenichini
+* Nice menu for update check by @gargoyle
+* JavaFX / JFX-Central linked in help
+* Scene Builder now can read FXMLs with unresolved imports it preserves these imports when requested
+* Scene Builder notifies the user which FXML imports cannot be resolved
+* Application data, preferences and library are now specific to Scene Builder version. This also means, that e.g. Scene Builder 18 and Scene Builder 19 Leading Edge can run at the same time on the same machine.
+* The welcome page supports now loading of FXML files via drag & drop.
+* Zoom in/out for the workspace is now working properly, in previous versions the keyboard controls were not working. Zoom works now with `CMD`+`+` or `CMD`+`-` on Mac and with `CTRL`+`+` or `CTRL`+`-` on Win/Linux. Also `SHIFT`+`CMD` and `SHIFT`+`CTRL` together with the arrow keys allows to zoom in/out.
+* It is now possible to copy FXML controller skeleton code from the correspoding preview window into the clipboard. For older versions this did not work properly.
+* With some FXML files, the keyboard accelerator `CTRL`+`P` for showing the preview window was not working.
+* There are no FX8 qualifiers anymore.
+
+Some open PRs are missing but those will follow soon.
 
 ## What is Scene Builder ##
 
