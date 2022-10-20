@@ -1,4 +1,4 @@
-# Scene Builder Leading Edge - October 2022#
+# Scene Builder Leading Edge - October 2022
 
 This version of Scene Builder is a fork of the most recent version of Gluon Scene Builder.
 The difference to Gluon Scene Builder is, that this version has basically all open PRs included.
