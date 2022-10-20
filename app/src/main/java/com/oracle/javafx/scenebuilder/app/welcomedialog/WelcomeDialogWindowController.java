@@ -47,6 +47,7 @@ import com.oracle.javafx.scenebuilder.app.preferences.PreferencesRecordGlobal;
 import com.oracle.javafx.scenebuilder.app.util.AppSettings;
 import com.oracle.javafx.scenebuilder.kit.editor.EditorController;
 import com.oracle.javafx.scenebuilder.kit.editor.panel.util.dialog.AlertDialog;
+import com.oracle.javafx.scenebuilder.kit.editor.panel.util.dialog.ErrorDialog;
 import com.oracle.javafx.scenebuilder.kit.template.Template;
 import com.oracle.javafx.scenebuilder.kit.template.TemplatesBaseWindowController;
 
@@ -58,6 +59,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -65,8 +68,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 public class WelcomeDialogWindowController extends TemplatesBaseWindowController {
 
+    private static final Logger LOGGER = Logger.getLogger(WelcomeDialogWindowController.class.getName());
+    
     @FXML
     private BorderPane contentPane;
 
@@ -111,6 +120,33 @@ public class WelcomeDialogWindowController extends TemplatesBaseWindowController
         getStage().setTitle(I18N.getString("welcome.title"));
         getStage().initModality(Modality.APPLICATION_MODAL);
     }
+    
+    @FXML
+    void handleFileDraggedOver(DragEvent event) {
+        if (event.getDragboard().hasFiles()) {
+            event.acceptTransferModes(TransferMode.ANY);
+        }
+    }
+
+    @FXML
+    void handleDroppedFiles(DragEvent event) {
+        if (event.getDragboard().hasFiles()) {
+            new WelcomeDialogFilesDropHandler(event.getDragboard().getFiles())
+                .withSupportedFiles(fileNames->Platform.runLater(()->handleOpen(fileNames)))
+                .withUnsupportedFiles(unsupported->notifyUserWhenDroppedUnsupportedFiles(unsupported))
+                .run();
+        }
+    }
+
+    private void notifyUserWhenDroppedUnsupportedFiles(List<String> unsupported) {
+        ErrorDialog dialog = new ErrorDialog(getStage());
+        dialog.setTitle(I18N.getString("welcome.loading.when.dropped.error.title"));
+        dialog.setMessage(I18N.getString("welcome.loading.when.dropped.error.message"));
+        String detail = unsupported.stream()
+                                   .collect(Collectors.joining(System.lineSeparator()));
+        dialog.setDetails(detail);
+        Platform.runLater(()->dialog.showAndWait());
+    }
 
     @Override
     protected void controllerDidLoadFxml() {
@@ -120,6 +156,7 @@ public class WelcomeDialogWindowController extends TemplatesBaseWindowController
         loadAndPopulateRecentItemsInBackground();
 
         setOnTemplateChosen(this::fireSelectTemplate);
+
     }
 
     private void loadAndPopulateRecentItemsInBackground() {
@@ -221,7 +258,7 @@ public class WelcomeDialogWindowController extends TemplatesBaseWindowController
 
         handleOpen(paths);
     }
-    
+
     protected static AlertDialog questionMissingFilesCleanup(Stage stage, List<String> missingFiles) {
         String withPath = missingFiles.stream()
                                       .collect(Collectors.joining(System.lineSeparator()));
@@ -242,7 +279,7 @@ public class WelcomeDialogWindowController extends TemplatesBaseWindowController
         question.setDetails(withPath);
         return question;
     }
-    
+
     boolean filePathExists(String filePath) {
         return Files.exists(Path.of(filePath));
     }
@@ -315,7 +352,8 @@ public class WelcomeDialogWindowController extends TemplatesBaseWindowController
         if (paths.isEmpty()) {
             return;
         }
-        
+
+        LOGGER.log(Level.INFO, "Attempting to open files: {0}", paths);
         fileLoader.accept(paths);
     }
 
