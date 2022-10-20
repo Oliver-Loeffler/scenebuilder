@@ -322,6 +322,13 @@ public class DocumentWindowController extends AbstractFxmlWindowController {
         if (modifierDown) {
             menuBarController.handleAdditionalZoomAccelerators(event);
         }
+
+        // Keep preview function working even if preview accelerator is 
+        // already occupied in FXML
+        if ("p".equalsIgnoreCase(event.getText()) && modifierDown) {
+            menuBarController.showPreview();
+            event.consume();
+        }
     };
     
     /*
