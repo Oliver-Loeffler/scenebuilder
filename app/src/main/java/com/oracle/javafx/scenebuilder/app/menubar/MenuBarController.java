@@ -40,6 +40,7 @@ import com.oracle.javafx.scenebuilder.app.SceneBuilderApp.ApplicationControlActi
 import com.oracle.javafx.scenebuilder.app.i18n.I18N;
 import com.oracle.javafx.scenebuilder.app.preferences.PreferencesController;
 import com.oracle.javafx.scenebuilder.app.preferences.PreferencesRecordGlobal;
+import com.oracle.javafx.scenebuilder.app.util.AppSettings;
 import com.oracle.javafx.scenebuilder.kit.editor.EditorController;
 import com.oracle.javafx.scenebuilder.kit.editor.EditorController.ControlAction;
 import com.oracle.javafx.scenebuilder.kit.editor.EditorController.EditAction;
@@ -68,6 +69,7 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -83,6 +85,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.effect.Effect;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCharacterCombination;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -1198,6 +1202,23 @@ public class MenuBarController {
         insertMenu.setOnMenuValidation(onCustomPartOfInsertMenuValidationHandler);
         
         windowMenu.setOnMenuValidation(onWindowMenuValidationHandler);
+
+        // Modify the Check Updates menu item if there is an update available.
+        // Icons by Font Awesome (https://fontawesome.com/license/free) under CC BY 4.0 License
+        AppSettings.getLatestVersion(latestVersion -> {
+            if (AppSettings.isUpdateAvailable()) {
+                Image icon = new Image(MenuBarController.class
+                        .getResource("download_icon.png")
+                        .toExternalForm());
+                ImageView iconView = new ImageView(icon);
+
+                Platform.runLater(() -> {
+                    checkUpdatesMenuItem.setGraphic(iconView);
+                    checkUpdatesMenuItem.disableProperty().setValue(false);
+                    checkUpdatesMenuItem.setText(I18N.getString("menu.title.check.updates.available"));
+                });
+            }
+        });
     }
 
     private void addSwatchGraphic(RadioMenuItem swatchMenuItem) {
