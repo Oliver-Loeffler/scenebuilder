@@ -89,6 +89,7 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.StackPane;
 
+import de.jangassen.MenuToolkit;
 /**
  *
  */
@@ -1177,6 +1178,16 @@ public class MenuBarController {
         insertMenu.setOnMenuValidation(onCustomPartOfInsertMenuValidationHandler);
         
         windowMenu.setOnMenuValidation(onWindowMenuValidationHandler);
+        
+        if (EditorPlatform.IS_MAC) {
+            installMacOSSystemMenu();
+        }
+    }
+
+    private void installMacOSSystemMenu() {
+        MenuToolkit toolkit = MenuToolkit.toolkit();
+        toolkit.createDefaultApplicationMenu("Test");
+        
     }
 
     private void addSwatchGraphic(RadioMenuItem swatchMenuItem) {
