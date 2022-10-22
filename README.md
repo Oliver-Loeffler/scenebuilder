@@ -8,6 +8,7 @@ The difference to Gluon Scene Builder is, that this version has basically all op
 * Binding expression support (no resolution / string only) by @treilhes
 * Library refresh by @luca-domenichini
 * Backward navigation when walking through scene graph nodes. One goes back (upwards) in the graph by pressing `ESC`. by @luca-domenichini
+* It is now possible to edit `Insets` of custom controls if those are exposed as Property
 * Nice menu for update check by @gargoyle
 * JavaFX / JFX-Central linked in help
 * Scene Builder now can read FXMLs with unresolved imports it preserves these imports when requested
