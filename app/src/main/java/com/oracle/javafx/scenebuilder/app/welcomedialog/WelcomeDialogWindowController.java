@@ -38,6 +38,7 @@ import com.oracle.javafx.scenebuilder.app.preferences.PreferencesController;
 import com.oracle.javafx.scenebuilder.app.preferences.PreferencesRecordGlobal;
 import com.oracle.javafx.scenebuilder.app.util.AppSettings;
 import com.oracle.javafx.scenebuilder.kit.editor.EditorController;
+import com.oracle.javafx.scenebuilder.kit.preferences.WindowPosition;
 import com.oracle.javafx.scenebuilder.kit.template.Template;
 import com.oracle.javafx.scenebuilder.kit.template.TemplatesBaseWindowController;
 import javafx.application.Platform;
@@ -52,6 +53,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.WindowEvent;
 
 import java.io.File;
@@ -90,6 +92,9 @@ public class WelcomeDialogWindowController extends TemplatesBaseWindowController
 
     @Override
     public void onCloseRequest(WindowEvent event) {
+    	WindowPosition winPos = WindowPosition.forStage(getClass().getSimpleName(), getStage());
+//    	PreferencesRecordWindows winPrefs = PreferencesController.getSingleton().getRecordWindows();
+//    	winPrefs.save(winPos);
         getStage().hide();
     }
 
@@ -175,6 +180,10 @@ public class WelcomeDialogWindowController extends TemplatesBaseWindowController
             AppSettings.setWindowIcon(stage);
         }
         return instance;
+    }
+    
+    public void showWindow() {
+    	getStage().show();
     }
 
     private void fireSelectTemplate(Template template) {
