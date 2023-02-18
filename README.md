@@ -1,7 +1,11 @@
-# Scene Builder Leading Edge - October 2022
+# Scene Builder LE 19 (Leading Edge - February 2023)
 
-This version of Scene Builder is a fork of the most recent version of Gluon Scene Builder.
-The difference to Gluon Scene Builder is, that this version has basically all open PRs included.
+This version of Scene Builder is a fork of the most recent version of Gluons Scene Builder for OpenJFX.
+The difference to Gluon Scene Builder is, that this version has basically includes many of the open PRs and features.
+Hence curious users can use Scene Builder LE to explore and play with early and yet unofficial features.
+
+Often it is hard to judge how a feature feels and how it works. This for shall allow exploration of new functionality.
+This also means, that some features may also get remove if it turns out that they do not work in the intended way or in cases these features receive negative feedback.
 
 ## February 2023 highlight:
 
@@ -57,7 +61,7 @@ Issues can be reported to the [Issue tracker](https://github.com/gluonhq/scenebu
 Contributions can be submitted via [Pull requests](https://github.com/gluonhq/scenebuilder/pulls/), 
 providing you have signed the [Gluon Individual Contributor License Agreement (CLA)](https://cla.gluonhq.com). Please check the [contribution guide](CONTRIBUTING.md) for more details.
 
-## Building Scene Builder ##
+## Building Scene Builder LE ##
 
 ### Requisites ###
 
@@ -66,7 +70,6 @@ Gluon Scene Builder is frequently released, and this is only required in case yo
 These are the requisites:
 
 * A recent version of [JDK 17 or later](https://www.oracle.com/technetwork/java/javase/downloads/index.html) for building 'master' branch
-* A recent version of [JDK 8](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) for building '8u-dev' branch
 
 ### How to build Scene Builder ###
 
