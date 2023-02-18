@@ -44,12 +44,10 @@ import com.oracle.javafx.scenebuilder.app.menubar.MenuBarController;
 import com.oracle.javafx.scenebuilder.app.preferences.PreferencesController;
 import com.oracle.javafx.scenebuilder.app.preferences.PreferencesRecordGlobal;
 import com.oracle.javafx.scenebuilder.app.preferences.PreferencesWindowController;
-import com.oracle.javafx.scenebuilder.app.registration.RegistrationWindowController;
 import com.oracle.javafx.scenebuilder.kit.library.util.JarReport;
 import com.oracle.javafx.scenebuilder.kit.template.Template;
 import com.oracle.javafx.scenebuilder.kit.template.TemplatesWindowController;
 import com.oracle.javafx.scenebuilder.kit.template.Type;
-import com.oracle.javafx.scenebuilder.app.tracking.Tracking;
 import com.oracle.javafx.scenebuilder.app.util.AppSettings;
 import com.oracle.javafx.scenebuilder.app.welcomedialog.WelcomeDialogWindowController;
 import com.oracle.javafx.scenebuilder.kit.editor.EditorController;
@@ -68,7 +66,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -102,7 +99,6 @@ public class SceneBuilderApp extends Application implements AppPlatform.AppNotif
     public enum ApplicationControlAction {
         ABOUT,
         CHECK_UPDATES,
-        REGISTER,
         NEW_FILE,
         NEW_TEMPLATE,
         OPEN_FILE,
@@ -167,11 +163,6 @@ public class SceneBuilderApp extends Application implements AppPlatform.AppNotif
                 AppSettings.setWindowIcon(aboutWindowController.getStage());
                 break;
 
-            case REGISTER:
-                final RegistrationWindowController registrationWindowController = new RegistrationWindowController(source.getStage());
-                registrationWindowController.openWindow();
-                break;
-
             case CHECK_UPDATES:
                 checkUpdates(source);
                 break;
@@ -227,7 +218,6 @@ public class SceneBuilderApp extends Application implements AppPlatform.AppNotif
         final boolean result;
         switch (a) {
             case ABOUT:
-            case REGISTER:
             case NEW_FILE:
             case NEW_TEMPLATE:
             case OPEN_FILE:
@@ -459,40 +449,6 @@ public class SceneBuilderApp extends Application implements AppPlatform.AppNotif
         userLibrary.explorationCountProperty().addListener((ChangeListener<Number>) (ov, t, t1) -> userLibraryExplorationCountDidChange());
 
         userLibrary.startExplorer();
-
-        sendTrackingStartupInfo();
-    }
-
-    private void sendTrackingStartupInfo() {
-        PreferencesController pc = PreferencesController.getSingleton();
-        PreferencesRecordGlobal recordGlobal = pc.getRecordGlobal();
-
-        boolean sendTrackingInfo = shouldSendTrackingInfo(recordGlobal);
-
-        if (sendTrackingInfo) {
-            boolean update = false;
-            String hash = recordGlobal.getRegistrationHash();
-            String email = recordGlobal.getRegistrationEmail();
-            boolean optIn = recordGlobal.isRegistrationOptIn();
-
-            Tracking.sendTrackingInfo(Tracking.SCENEBUILDER_USAGE_TYPE, hash, email, optIn, update);
-        }
-    }
-
-    private boolean shouldSendTrackingInfo(PreferencesRecordGlobal recordGlobal) {
-        LocalDate date = recordGlobal.getLastSentTrackingInfoDate();
-        boolean sendTrackingInfo = true;
-        LocalDate now = LocalDate.now();
-
-        if (date != null) {
-            sendTrackingInfo = date.plusWeeks(1).isBefore(now);
-            if (sendTrackingInfo) {
-                recordGlobal.setLastSentTrackingInfoDate(now);
-            }
-        } else {
-            recordGlobal.setLastSentTrackingInfoDate(now);
-        }
-        return sendTrackingInfo;
     }
 
     private void createEmptyDocumentWindow() {
@@ -938,46 +894,6 @@ public class SceneBuilderApp extends Application implements AppPlatform.AppNotif
         }
     }
 
-    private void showUpdateDialogIfRequired(DocumentWindowController dwc) {
-        AppSettings.getLatestVersion(latestVersion -> {
-            if (latestVersion == null) {
-                // This can be because the url was not reachable so we don't show the update dialog.
-                return;
-            }
-            try {
-                boolean showUpdateDialog = true;
-                if (AppSettings.getSceneBuilderVersion().contains("SNAPSHOT")) {
-                    showUpdateDialog = false;
-                } else if (AppSettings.isCurrentVersionLowerThan(latestVersion)) {
-                    PreferencesController pc = PreferencesController.getSingleton();
-                    PreferencesRecordGlobal recordGlobal = pc.getRecordGlobal();
-
-                    if (isVersionToBeIgnored(recordGlobal, latestVersion)) {
-                        showUpdateDialog = false;
-                    }
-
-                    if (!isUpdateDialogDateReached(recordGlobal)) {
-                        showUpdateDialog = false;
-                    }
-                } else {
-                    showUpdateDialog = false;
-                }
-
-                if (showUpdateDialog) {
-                    String latestVersionText = AppSettings.getLatestVersionText();
-                    String latestVersionAnnouncementURL = AppSettings.getLatestVersionAnnouncementURL();
-                    Platform.runLater(() -> {
-                        UpdateSceneBuilderDialog dialog = new UpdateSceneBuilderDialog(latestVersion, latestVersionText,
-                                latestVersionAnnouncementURL, dwc.getStage());
-                        dialog.showAndWait();
-                    });
-                }
-            } catch (NumberFormatException ex) {
-                Platform.runLater(() -> showVersionNumberFormatError(dwc));
-            }
-        });
-    }
-
     private void checkUpdates(DocumentWindowController source) {
         AppSettings.getLatestVersion(latestVersion -> {
             if (latestVersion == null) {
@@ -1022,22 +938,6 @@ public class SceneBuilderApp extends Application implements AppPlatform.AppNotif
         alert.setHeaderText(I18N.getString("check_for_updates.alert.headertext"));
         alert.setContentText("Update check is disabled in development environment.");
         alert.showAndWait();
-    }
-
-    private boolean isVersionToBeIgnored(PreferencesRecordGlobal recordGlobal, String latestVersion) {
-        String ignoreVersion = recordGlobal.getIgnoreVersion();
-        return latestVersion.equals(ignoreVersion);
-    }
-
-    private boolean isUpdateDialogDateReached(PreferencesRecordGlobal recordGlobal) {
-        LocalDate dialogDate = recordGlobal.getShowUpdateDialogDate();
-        if (dialogDate == null) {
-            return true;
-        } else if (dialogDate.isBefore(LocalDate.now())) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     private void logInfoMessage(String key) {

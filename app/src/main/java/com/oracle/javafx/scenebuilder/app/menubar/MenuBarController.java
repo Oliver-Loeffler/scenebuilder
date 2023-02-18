@@ -1171,7 +1171,7 @@ public class MenuBarController {
         helpMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F1));
         showWelcomeItem.setUserData(new ApplicationControlActionController(ApplicationControlAction.SHOW_WELCOME));
         checkUpdatesMenuItem.setUserData(new ApplicationControlActionController(ApplicationControlAction.CHECK_UPDATES));
-        registerMenuItem.setUserData(new ApplicationControlActionController(ApplicationControlAction.REGISTER));
+        registerMenuItem.setDisable(true);
         gettingStartedMenuItem.setUserData(new DocumentControlActionController(DocumentControlAction.HELP_OPEN_GETTING_STARTED_GUIDE));
         gettingStartedMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F2));
         apiDocMenuItem.setUserData(new DocumentControlActionController(DocumentControlAction.HELP_OPEN_OPENJFX_APIDOC));
