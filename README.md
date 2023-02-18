@@ -7,7 +7,7 @@ Hence curious users can use Scene Builder LE to explore and play with early and 
 Often it is hard to judge how a feature feels and how it works. This for shall allow exploration of new functionality.
 This also means, that some features may also get remove if it turns out that they do not work in the intended way or in cases these features receive negative feedback.
 
-## February 2023 highlight:
+## February 2023 highlights:
 
 * Scene Builder can now create controller skeletons for JRuby by @byteit101
 * Scene Builder also can create controller skeletons for Scala by @rladstaetter
