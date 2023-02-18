@@ -109,4 +109,14 @@ public class SkeletonCreatorKotlin extends AbstractSkeletonCreator {
                 .append("'").append(context.getDocumentName()).append("'.\" }").append(NL); //NOI18N
         }
     }
+    
+    @Override
+    public String fileExtension() {
+        return ".kt";
+    }
+    
+    @Override
+    public String languageName() {
+        return "Kotlin";
+    }
 }

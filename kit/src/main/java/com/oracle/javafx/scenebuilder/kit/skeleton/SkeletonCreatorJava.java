@@ -119,4 +119,14 @@ public class SkeletonCreatorJava extends AbstractSkeletonCreator {
                 .append("'").append(context.getDocumentName()).append("'.\";").append(NL); //NOI18N
         }
     }
+
+    @Override
+    public String fileExtension() {
+        return ".java";
+    }
+
+    @Override
+    public String languageName() {
+        return "Java";
+    }
 }

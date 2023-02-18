@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2023, Oliver Loeffler.
  * Copyright (c) 2022, Gluon and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
@@ -31,7 +32,9 @@
  */
 package com.oracle.javafx.scenebuilder.kit.skeleton;
 
-@FunctionalInterface
+
 public interface SkeletonConverter {
     String createFrom(SkeletonContext context);
+    String fileExtension();
+    String languageName();
 }

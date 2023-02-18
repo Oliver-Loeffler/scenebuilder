@@ -38,33 +38,39 @@ class SkeletonSettings {
     private FORMAT_TYPE textFormat = FORMAT_TYPE.COMPACT;
 
     enum LANGUAGE {
-        JAVA("Java", ".java"), KOTLIN("Kotlin", ".kt"), JRUBY("JRuby", ".rb"),
-        SCALA("Scala", ".scala");
+        JAVA(new SkeletonCreatorJava()), 
+        KOTLIN(new SkeletonCreatorKotlin()), 
+        JRUBY(new SkeletonCreatorJRuby()),
+        SCALA(new SkeletonCreatorScala());
 
-        private final String name;
-        private final String ext;
+        private final SkeletonConverter converter;
 
-        LANGUAGE(String name, String fileNameExt) {
-            this.name = name;
-            this.ext = fileNameExt;
+        LANGUAGE(SkeletonConverter converter) {
+            this.converter = converter;
         }
 
         @Override
         public String toString() {
-            return name;
+            return converter.languageName();
         }
 
         String getExtension() {
-            return ext;
+            return converter.fileExtension();
+        }
+        
+        String createSkeleton(SkeletonContext context) {
+            return converter.createFrom(context); 
         }
     }
 
     enum TEXT_TYPE {
-        WITH_COMMENTS, WITHOUT_COMMENTS
+        WITH_COMMENTS, 
+        WITHOUT_COMMENTS
     }
 
     enum FORMAT_TYPE {
-        COMPACT, FULL
+        COMPACT,
+        FULL
     }
 
     void setLanguage(LANGUAGE language) {

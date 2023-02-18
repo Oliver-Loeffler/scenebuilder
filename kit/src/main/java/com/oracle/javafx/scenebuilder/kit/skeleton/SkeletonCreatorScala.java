@@ -144,5 +144,14 @@ public final class SkeletonCreatorScala extends AbstractSkeletonCreator {
                     .append("'").append(context.getDocumentName()).append("'.\")").append(NL); //NOI18N
         }
     }
-
+    
+    @Override
+    public String fileExtension() {
+        return ".scala";
+    }
+    
+    @Override
+    public String languageName() {
+        return "Scala";
+    }
 }

@@ -254,4 +254,13 @@ public class SkeletonCreatorJRuby implements SkeletonConverter {
         }
     }
 
+    @Override
+    public String fileExtension() {
+        return ".rb";
+    }
+    
+    @Override
+    public String languageName() {
+        return "JRuby";
+    }
 }

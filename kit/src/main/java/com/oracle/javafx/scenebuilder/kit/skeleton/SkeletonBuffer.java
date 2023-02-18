@@ -48,8 +48,6 @@ class SkeletonBuffer {
 
     private final SkeletonSettings settings = new SkeletonSettings();
 
-    private final SkeletonCreator skeletonCreator = new SkeletonCreator();
-
     SkeletonBuffer(FXOMDocument document, String documentName) {
         assert document != null;
         this.document = document;
@@ -83,8 +81,9 @@ class SkeletonBuffer {
                 .withSettings(settings);
 
             construct(builder);
-
-            return skeletonCreator.createFrom(builder.build());
+            
+            SkeletonContext context = builder.build();
+            return context.createSkeleton();
         }
     }
 
