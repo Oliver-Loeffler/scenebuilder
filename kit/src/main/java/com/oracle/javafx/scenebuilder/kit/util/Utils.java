@@ -13,7 +13,8 @@ public class Utils {
         if (fxomDocument == null) {
             title = I18N.getString("label.no.document");
         } else if (fxomDocument.getLocation() == null) {
-            title = I18N.getString("label.untitled") + " - " + I18N.getString("docuument.window.title.extension");
+            title = I18N.getString("label.untitled");
+            //  + " - " + I18N.getString("document.window.title.extension")
         } else {
             String name = ""; //NOI18N
             try {
