@@ -327,7 +327,6 @@
                 </ImageView>
               </graphic>
             </MenuItem>
-            <MenuItem fx:id="registerMenuItem" mnemonicParsing="false" text="%menu.title.register" />
             <MenuItem fx:id="showWelcomeItem" mnemonicParsing="false" text="%menu.title.show.welcome" />
             <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="%menu.title.about" />
           </items>

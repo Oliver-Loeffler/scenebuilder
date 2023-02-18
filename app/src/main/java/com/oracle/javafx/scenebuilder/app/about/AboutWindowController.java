@@ -175,8 +175,11 @@ public final class AboutWindowController extends AbstractFxmlWindowController {
 
     private StringBuilder getVersionParagraph() {
         StringBuilder sb = new StringBuilder(I18N.getString("about.product.version"));
-        sb.append("\n%s ".formatted(I18N.getString("welcome.title"))).append(sbBuildVersion) //NOI18N
-                .append("\n\n"); //NOI18N
+        sb.append("\n%s ".formatted(I18N.getString("welcome.title")))
+          .append(sbBuildVersion) //NOI18N
+          .append("\n\nLE is the Leading Edge version of Scene Builder where early ") 
+          .append("and unofficial features are integrated so that curious users can experiment with them.") // NOI18N
+          .append("\n\n"); //NOI18N
         return sb;
     }
 

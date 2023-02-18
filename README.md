@@ -5,7 +5,9 @@ The difference to Gluon Scene Builder is, that this version has basically all op
 
 ## February 2023 highlight:
 
-* added Chinese translation added @bbbboom
+* added Chinese translation provided by @bbbboom
+* This fork is now consistently called Scene Builder LE and its configuration and settings are independent from Gluon released Scene Builder versions.
+* Tracking functionality has been removed, user registration is no longer working.
 
 ## October 2022 highlights:
 
