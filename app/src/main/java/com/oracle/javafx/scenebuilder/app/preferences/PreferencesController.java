@@ -55,7 +55,7 @@ public class PreferencesController extends PreferencesControllerBase{
      **************************************************************************/
 
     // PREFERENCES NODE NAME
-    static final String SB_RELEASE_NODE = "SB_"+AppSettings.getSceneBuilderVersion(); //NOI18N
+    static final String SB_RELEASE_NODE = "SB_LE_"+AppSettings.getSceneBuilderVersion(); //NOI18N
 
     // GLOBAL PREFERENCES
     static final String TOOL_THEME = "TOOL_THEME"; //NOI18N
