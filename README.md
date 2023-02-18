@@ -3,6 +3,10 @@
 This version of Scene Builder is a fork of the most recent version of Gluon Scene Builder.
 The difference to Gluon Scene Builder is, that this version has basically all open PRs included.
 
+## February 2023 highlight:
+
+* added Chinese translation added @bbbboom
+
 ## October 2022 highlights:
 
 * Binding expression support (no resolution / string only) by @treilhes
