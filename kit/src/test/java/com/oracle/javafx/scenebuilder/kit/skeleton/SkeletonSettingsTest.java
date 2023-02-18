@@ -41,5 +41,7 @@ public class SkeletonSettingsTest {
     public void that_controller_class_file_extensions_match_language() {
         assertEquals(".java", SkeletonSettings.LANGUAGE.JAVA.getExtension());
         assertEquals(".kt",   SkeletonSettings.LANGUAGE.KOTLIN.getExtension());
+        assertEquals(".scala", SkeletonSettings.LANGUAGE.SCALA.getExtension());
+        assertEquals(".rb", SkeletonSettings.LANGUAGE.JRUBY.getExtension());
     }
 }

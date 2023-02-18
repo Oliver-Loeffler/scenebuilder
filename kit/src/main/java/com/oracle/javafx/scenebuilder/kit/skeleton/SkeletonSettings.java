@@ -38,7 +38,8 @@ class SkeletonSettings {
     private FORMAT_TYPE textFormat = FORMAT_TYPE.COMPACT;
 
     enum LANGUAGE {
-        JAVA("Java", ".java"), KOTLIN("Kotlin", ".kt"), JRUBY("JRuby", ".rb");
+        JAVA("Java", ".java"), KOTLIN("Kotlin", ".kt"), JRUBY("JRuby", ".rb"),
+        SCALA("Scala", ".scala");
 
         private final String name;
         private final String ext;

@@ -38,6 +38,15 @@ import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * This class can be used as a template to create new {@link SkeletonConverter}
+ * classes for languages which are structurally very similar to Java or Scala.
+ * 
+ * For languages which are quite different just implement the
+ * {@link SkeletonConverter} interface and use the {@link SkeletonContext} to
+ * create the necessary source code.
+ *
+ */
 abstract class AbstractSkeletonCreator implements SkeletonConverter {
 
     static final String NL = System.lineSeparator();
@@ -142,7 +151,7 @@ abstract class AbstractSkeletonCreator implements SkeletonConverter {
         if (parameters.length > 0) {
             sb.append("<"); //NOI18N
             String sep = ""; //NOI18N
-            for (TypeVariable<?> ignored : parameters) {
+            for (@SuppressWarnings("unused") TypeVariable<?> ignored : parameters) {
                 sb.append(sep);
                 appendFieldParameterType(sb);
                 sep = ", "; //NOI18N

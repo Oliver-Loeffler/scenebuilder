@@ -9,9 +9,11 @@ This also means, that some features may also get remove if it turns out that the
 
 ## February 2023 highlight:
 
+* Scene Builder can now create controller skeletons for JRuby by @byteit101
+* Scene Builder also can create controller skeletons for Scala by @rladstaetter
 * added Chinese translation provided by @bbbboom
 * This fork is now consistently called Scene Builder LE and its configuration and settings are independent from Gluon released Scene Builder versions.
-* Tracking functionality has been removed, user registration is no longer working.
+* During work on getting Scene Builder LE available in the Microsoft App Store, the tracking functionality has been removed, user registration is no longer working.
 
 ## October 2022 highlights:
 

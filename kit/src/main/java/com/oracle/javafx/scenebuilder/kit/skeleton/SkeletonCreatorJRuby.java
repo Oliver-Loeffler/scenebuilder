@@ -34,9 +34,7 @@ package com.oracle.javafx.scenebuilder.kit.skeleton;
 import com.oracle.javafx.scenebuilder.kit.i18n.I18N;
 
 import java.lang.reflect.TypeVariable;
-import java.net.URL;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -169,7 +167,7 @@ public class SkeletonCreatorJRuby implements SkeletonConverter {
         if (parameters.length > 0) {
             sb.append("<"); //NOI18N
             String sep = ""; //NOI18N
-            for (TypeVariable<?> ignored : parameters) {
+            for (@SuppressWarnings("unused") TypeVariable<?> ignored : parameters) {
                 sb.append(sep);
                 sb.append("?"); //NOI18N
                 sep = ", "; //NOI18N

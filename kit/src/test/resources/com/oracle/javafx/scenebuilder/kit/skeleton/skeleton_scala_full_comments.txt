@@ -1,0 +1,40 @@
+/**
+ * Sample Skeleton for 'test' Controller Class
+ */
+
+package com.oracle.javafx.scenebuilder.kit.skeleton
+
+import java.net.URL
+import java.util.ResourceBundle
+import javafx.fxml.FXML
+import javafx.scene.control.TableView
+import javafx.scene.input.MouseEvent
+import javafx.scene.layout.VBox
+
+class EmptyController {
+
+    @FXML // ResourceBundle that was given to the FXMLLoader
+    private var resources: ResourceBundle = _
+
+    @FXML // URL location of the FXML file that was given to the FXMLLoader
+    private var location: URL = _
+
+    @FXML // fx:id="myTableView"
+    private var myTableView: TableView[_] = _ // Value injected by FXMLLoader
+
+    @FXML // fx:id="myVbox"
+    private var myVbox: VBox = _ // Value injected by FXMLLoader
+
+    @FXML
+    def onMyVboxMouseEntered(event: MouseEvent): Unit = {
+
+    }
+
+    @FXML // This method is called by the FXMLLoader when initialization is complete
+    def initialize(): Unit = {
+        assert(myTableView != null, "fx:id=\"myTableView\" was not injected: check your FXML file 'test'.")
+        assert(myVbox != null, "fx:id=\"myVbox\" was not injected: check your FXML file 'test'.")
+
+    }
+
+}

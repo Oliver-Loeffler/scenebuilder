@@ -66,6 +66,15 @@ public class SkeletonFileNameProposalTest {
 
         assertEquals(expected, result);
     }
+    
+    @Test
+    public void that_default_scala_file_is_created_on_new_documents() {
+        classUnderTest = new SkeletonFileNameProposal(LANGUAGE.SCALA);
+        File result = classUnderTest.create(null, null);
+        File expected = new File(System.getProperty("user.home"), "PleaseProvideControllerClassName.scala");
+
+        assertEquals(expected, result);
+    }
 
     @Test
     public void that_controllerName_is_used_when_available() {
@@ -123,6 +132,26 @@ public class SkeletonFileNameProposalTest {
     }
 
     @Test
+    public void that_fxmlLocation_in_resources_dir_is_changed_to_scala_specific_directory(@TempDir Path temporaryDirectory) throws Exception {
+
+        String sourceFolder = "com/oracle/javafx/scenebuilder/kit/skeleton";
+        Path resourcesDir = temporaryDirectory.resolve("src/main/resources").resolve(sourceFolder);
+        Path kotlinDir = temporaryDirectory.resolve("src/main/scala").resolve(sourceFolder);
+
+        Files.createDirectories(resourcesDir);
+        Files.createDirectories(kotlinDir);
+
+        classUnderTest = new SkeletonFileNameProposal(LANGUAGE.SCALA);
+        String fxControllerName = "com.oracle.javafx.scenebuilder.kit.skeleton.SkeletonTest$SkeletonTestController";
+        URL fxmlLocation = resourcesDir.resolve("SkeletonWindow.fxml").toFile().toURI().toURL();
+
+        File result = classUnderTest.create(fxmlLocation, fxControllerName);
+        File expected = kotlinDir.resolve("SkeletonTestController.scala").toFile();
+
+        assertEquals(expected.toString(), result.toString());
+    }
+    
+    @Test
     public void that_controllerName_is_preferred_over_fxmlLocation_in_user_directory() throws Exception {
         classUnderTest = new SkeletonFileNameProposal(LANGUAGE.JAVA);
         String fxControllerName = "com.oracle.javafx.scenebuilder.kit.skeleton.SkeletonTest$SkeletonTestController";
@@ -175,6 +204,12 @@ public class SkeletonFileNameProposalTest {
         classUnderTest = new SkeletonFileNameProposal(LANGUAGE.KOTLIN);
         result = classUnderTest.create(fxmlLocation, null);
         expected = new File(resourcesDir, "SkeletonWindowController.kt");
+        assertEquals(expected.toString(), result.toString());
+        
+        // SCALA
+        classUnderTest = new SkeletonFileNameProposal(LANGUAGE.SCALA);
+        result = classUnderTest.create(fxmlLocation, null);
+        expected = new File(resourcesDir, "SkeletonWindowController.scala");
         assertEquals(expected.toString(), result.toString());
     }
 }
