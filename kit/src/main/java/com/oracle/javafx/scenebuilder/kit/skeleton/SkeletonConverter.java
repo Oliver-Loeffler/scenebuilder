@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, 2022, Gluon and/or its affiliates.
+ * Copyright (c) 2022, Gluon and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -31,25 +31,7 @@
  */
 package com.oracle.javafx.scenebuilder.kit.skeleton;
 
-class SkeletonCreator {
-
-    private final SkeletonCreatorJava skeletonCreatorJava = new SkeletonCreatorJava();
-    private final SkeletonCreatorKotlin skeletonCreatorKotlin = new SkeletonCreatorKotlin();
-    private final SkeletonCreatorJRuby skeletonCreatorJRuby = new SkeletonCreatorJRuby();
-
-    /**
-     * @return a code skeleton for the given context
-     */
-    String createFrom(SkeletonContext context) {
-        switch (context.getSettings().getLanguage()) {
-            case JAVA:
-                return skeletonCreatorJava.createFrom(context);
-            case KOTLIN:
-                return skeletonCreatorKotlin.createFrom(context);
-            case JRUBY:
-                return skeletonCreatorJRuby.createFrom(context);
-            default:
-                throw new IllegalArgumentException("Language not supported: " + context.getSettings().getLanguage());
-        }
-    }
+@FunctionalInterface
+public interface SkeletonConverter {
+    String createFrom(SkeletonContext context);
 }
