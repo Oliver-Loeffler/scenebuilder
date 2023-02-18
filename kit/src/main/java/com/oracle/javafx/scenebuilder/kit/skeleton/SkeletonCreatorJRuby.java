@@ -38,7 +38,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SkeletonCreatorJRuby implements SkeletonConverter {
+public class SkeletonCreatorJRuby implements SkeletonCreator {
 
     static final String NL = System.lineSeparator();
     static final String INDENT = "    "; //NOI18N

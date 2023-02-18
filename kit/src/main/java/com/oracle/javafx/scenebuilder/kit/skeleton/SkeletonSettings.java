@@ -43,9 +43,9 @@ class SkeletonSettings {
         JRUBY(new SkeletonCreatorJRuby()),
         SCALA(new SkeletonCreatorScala());
 
-        private final SkeletonConverter converter;
+        private final SkeletonCreator converter;
 
-        LANGUAGE(SkeletonConverter converter) {
+        LANGUAGE(SkeletonCreator converter) {
             this.converter = converter;
         }
 

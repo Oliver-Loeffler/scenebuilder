@@ -39,15 +39,15 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
- * This class can be used as a template to create new {@link SkeletonConverter}
+ * This class can be used as a template to create new {@link SkeletonCreator}
  * classes for languages which are structurally very similar to Java or Scala.
  * 
  * For languages which are quite different just implement the
- * {@link SkeletonConverter} interface and use the {@link SkeletonContext} to
+ * {@link SkeletonCreator} interface and use the {@link SkeletonContext} to
  * create the necessary source code.
  *
  */
-abstract class AbstractSkeletonCreator implements SkeletonConverter {
+abstract class AbstractSkeletonCreator implements SkeletonCreator {
 
     static final String NL = System.lineSeparator();
     static final String INDENT = "    "; //NOI18N
