@@ -66,9 +66,9 @@ class AppPlatformTest {
     }
 
     @ParameterizedTest
-    @CsvSource({ "WINDOWS, 18.0.0,          C:\\Users\\UserName\\AppData\\Roaming\\Scene Builder\\18.0.0",
-            "LINUX,   19.1.2-SNAPSHOT, /home/user/.scenebuilder/19.1.2-SNAPSHOT",
-            "MAC,     17,              /home/user/Library/Application Support/Scene Builder/17" })
+    @CsvSource({ "WINDOWS, 18.0.0,          C:\\Users\\UserName\\AppData\\Roaming\\SceneBuilderLE\\18.0.0",
+            "LINUX,   19.1.2-SNAPSHOT, /home/user/.scenebuilder_le/19.1.2-SNAPSHOT",
+            "MAC,     17,              /home/user/Library/Application Support/SceneBuilderLE/17" })
     void that_applications_data_folder_matches_OS_requirements(OS operatingSystem, String version,
             String expectedPath) {
         String appDir = AppPlatform.getApplicationDataFolder(testEnvironment, testProperties, operatingSystem, version);
@@ -88,7 +88,7 @@ class AppPlatformTest {
     @EnabledOnOs(value = org.junit.jupiter.api.condition.OS.WINDOWS)
     void that_application_settings_directory_is_created_properly_on_windows() {
         Path appDir = Path.of(AppPlatform.getApplicationDataFolder());
-        Path expected = Path.of(System.getenv("APPDATA") + "\\Scene Builder\\" + AppSettings.getSceneBuilderVersion());
+        Path expected = Path.of(System.getenv("APPDATA") + "\\SceneBuilderLE\\" + AppSettings.getSceneBuilderVersion());
         assertEquals(expected, appDir);
     }
 
@@ -97,7 +97,7 @@ class AppPlatformTest {
     void that_application_settings_directory_is_created_properly_on_linux() {
         Path appDir = Path.of(AppPlatform.getApplicationDataFolder());
         Path expected = Path
-                .of(System.getProperty("user.home") + "/.scenebuilder/" + AppSettings.getSceneBuilderVersion());
+                .of(System.getProperty("user.home") + "/.scenebuilder_le/" + AppSettings.getSceneBuilderVersion());
         assertEquals(expected, appDir);
     }
 
@@ -105,7 +105,7 @@ class AppPlatformTest {
     @EnabledOnOs(value = org.junit.jupiter.api.condition.OS.MAC)
     void that_application_settings_directory_is_created_properly_on_mac() {
         Path appDir = Path.of(AppPlatform.getApplicationDataFolder());
-        Path expected = Path.of(System.getProperty("user.home") + "/Library/Application Support/Scene Builder/"
+        Path expected = Path.of(System.getProperty("user.home") + "/Library/Application Support/SceneBuilderLE/"
                 + AppSettings.getSceneBuilderVersion());
         assertEquals(expected, appDir);
     }
@@ -115,7 +115,7 @@ class AppPlatformTest {
         // init app data folder first as this is the basis
         AppPlatform.getApplicationDataFolder(testEnvironment, testProperties, OS.WINDOWS, "19.0.0-SNAPSHOT");
         String libraryDir = AppPlatform.getUserLibraryFolder(OS.WINDOWS);
-        assertEquals("C:\\Users\\UserName\\AppData\\Roaming\\Scene Builder\\19.0.0-SNAPSHOT\\Library", libraryDir);
+        assertEquals("C:\\Users\\UserName\\AppData\\Roaming\\SceneBuilderLE\\19.0.0-SNAPSHOT\\Library", libraryDir);
     }
 
     @Test
@@ -123,13 +123,13 @@ class AppPlatformTest {
         // init app data folder first as this is the basis
         AppPlatform.getApplicationDataFolder(testEnvironment, testProperties, OS.WINDOWS, "19.0.0-SNAPSHOT");
         Path messageBoxDir = Path.of(AppPlatform.getMessageBoxFolder());
-        Path expectedDir = Path.of("C:\\Users\\UserName\\AppData\\Roaming\\Scene Builder\\19.0.0-SNAPSHOT\\MB");
+        Path expectedDir = Path.of("C:\\Users\\UserName\\AppData\\Roaming\\SceneBuilderLE\\19.0.0-SNAPSHOT\\MB");
         assertEquals(expectedDir, messageBoxDir);
     }
 
     @Test
     void that_logfiles_are_stored_in_userhome_scenebuilder_logs() {
-        String expectedLogDir = Path.of(System.getProperty("user.home"), ".scenebuilder", "logs").toString();
+        String expectedLogDir = Path.of(System.getProperty("user.home"), ".scenebuilder_le", "logs").toString();
         assertEquals(expectedLogDir, AppPlatform.getLogFolder());
     }
 }

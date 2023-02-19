@@ -69,7 +69,7 @@ public class AppPlatform {
     static synchronized String getApplicationDataFolder(Map<String, String> sysenv, Properties system,
             OS operatingSystem, String version) {
         if (applicationDataFolder == null) {
-            final String appName = "Scene Builder"; // NOI18N
+            final String appName = "SceneBuilderLE"; // NOI18N
             switch (operatingSystem) {
             case WINDOWS:
                 applicationDataFolder = sysenv.get("APPDATA") + "\\" + appName + "\\" + version; // NOI18N
@@ -80,7 +80,7 @@ public class AppPlatform {
                         + appName + "/" + version;
                 break;
             case LINUX:
-                applicationDataFolder = system.getProperty("user.home") + "/.scenebuilder/" + version; // NOI18N
+                applicationDataFolder = system.getProperty("user.home") + "/.scenebuilder_le/" + version; // NOI18N
                 break;
             }
         }
@@ -118,7 +118,7 @@ public class AppPlatform {
     
     
     /**
-     * Returns the directory path for logs. Default path is "${user.home}/.scenebuilder/logs/".
+     * Returns the directory path for logs. Default path is "${user.home}/.scenebuilder_le/logs/".
      * @return Directory path for Scene Builder logs
      */
     public static synchronized String getLogFolder() {
@@ -127,7 +127,7 @@ public class AppPlatform {
     
     static synchronized String getLogFolder(Properties system) {
         if (logsFolder == null) {
-            logsFolder = Paths.get(system.getProperty("user.home"), ".scenebuilder", "logs").toString(); //NOI18N
+            logsFolder = Paths.get(system.getProperty("user.home"), ".scenebuilder_le", "logs").toString(); //NOI18N
         }
         return logsFolder;
     }
