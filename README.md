@@ -1,4 +1,4 @@
-# Scene Builder LE 19 (Leading Edge - February 2023)
+# Scene Builder LE 20 (Leading Edge - March 2023)
 
 This version of Scene Builder is a fork of the most recent version of Gluons Scene Builder for OpenJFX.
 The difference to Gluon Scene Builder is, that this version has basically includes many of the open PRs and features. Hence curious users can use Scene Builder LE to explore and play with early and yet unofficial features.
@@ -6,6 +6,10 @@ The difference to Gluon Scene Builder is, that this version has basically includ
 Often it is hard to judge how a feature feels and how it works. This for shall allow exploration of new functionality. This also means, that some features may also get remove if it turns out that they do not work in the intended way or in cases these features receive negative feedback.
 
 This fork of Scene Builder can be installed and executed in parallel to an existing version of the mainline Scene Builder provided by Gluon.
+
+## March 2023 highlights:
+* Scene Builder now runs with Java 20
+* OpenJFX 20 is used instead of its early access version
 
 ## February 2023 highlights:
 
