@@ -44,6 +44,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -105,6 +106,25 @@ public class FXOMSaverUpdateImportInstructionsTest {
     @Test
     public void testUnusedImports() {
         setupTestCase(FxmlTestInfo.UNUSED_IMPORTS);
+
+        Set<String> imports = new TreeSet<>();
+        fxomDocument.getFxomRoot().collectDeclaredClasses().forEach(dc -> {
+            imports.add(dc.getName());
+        });
+
+        Set<String> unusedImports = new TreeSet<>();
+        unusedImports.add("java.util.Date");
+        unusedImports.add("java.math.*");
+        unusedImports.add("java.util.Set");
+        unusedImports.add("org.junit.Test");
+        assertFalse(imports.containsAll(unusedImports),
+                "unused imports are not present");
+    }
+    
+    @Test
+    public void testThatUnknownImportsArePreservedOnDemand() {
+        setupTestCase(FxmlTestInfo.UNUSED_UNKNOWN_IMPORTS,
+                FXOMDocumentSwitch.PRESERVE_UNRESOLVED_IMPORTS);
 
         Set<String> imports = new TreeSet<>();
         fxomDocument.getFxomRoot().collectDeclaredClasses().forEach(dc -> {
@@ -275,13 +295,13 @@ public class FXOMSaverUpdateImportInstructionsTest {
         return serviceUnderTest.save(fxomDocument);
     }
 
-    private void setupTestCase(FxmlTestInfo n) {
+    private void setupTestCase(FxmlTestInfo n, FXOMDocumentSwitch ...switches) {
         Path pathToFXML = Paths.get("src/test/resources/com/oracle/javafx/scenebuilder/kit/fxom/" + n.getFilename() + ".fxml");
         try {
             Path pathToTestFXML = temporaryFolder.resolve("testerFXML.fxml");
 
             // Setup for the fxomDocument from the FXML file that will be tested
-            setupFXOMDocument(pathToFXML);
+            setupFXOMDocument(pathToFXML,switches);
 
             String savedFXML = callService();
 
@@ -294,13 +314,13 @@ public class FXOMSaverUpdateImportInstructionsTest {
     }
 
     // setup for the FXOMDocument that will be tested
-    private void setupFXOMDocument(Path fxmlTesterFile) {
+    private void setupFXOMDocument(Path fxmlTesterFile, FXOMDocumentSwitch ...switches) {
         serviceUnderTest = new FXOMSaver();
         try {
             URL location = fxmlTesterFile.toFile().toURI().toURL();
             String fxmlString = getFxmlAsString(fxmlTesterFile);
-
-            fxomDocument = new FXOMDocument(fxmlString, location, null, null, FXOMDocumentSwitch.NORMALIZED);
+            Set<FXOMDocumentSwitch> fxomOptions = EnumSet.of(FXOMDocumentSwitch.NORMALIZED, switches);
+            fxomDocument = new FXOMDocument(fxmlString, location, null, null, fxomOptions.toArray(new FXOMDocumentSwitch[0]));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -325,6 +345,7 @@ public class FXOMSaverUpdateImportInstructionsTest {
         HEADER_WITH_NOT_ONLY_IMPORTS("HeaderWithNotOnlyImports"),
         NO_WILDCARD("NoWildcard"),
         UNUSED_IMPORTS("UnusedImports"),
+        UNUSED_UNKNOWN_IMPORTS("UnusedAndUnknownImports"),
         WILDCARDS_AND_DUPLICATES("WildcardsAndDuplicates"),
         WILDCARDS_AND_STATIC_PROPERTIES("WildcardsAndStaticProperties"),
         WITH_MORE_WILDCARDS("WithMoreWildcards"),

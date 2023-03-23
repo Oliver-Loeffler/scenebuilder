@@ -5,6 +5,7 @@
 <?import java.util.Date?>
 <?import java.math.*?>
 <?import java.util.Set?>
+<?import org.junit.Test?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
