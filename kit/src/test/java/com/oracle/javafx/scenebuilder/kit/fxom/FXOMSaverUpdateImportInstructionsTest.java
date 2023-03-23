@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, 2022, Gluon and/or its affiliates.
+ * Copyright (c) 2016, 2023, Gluon and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -34,8 +34,10 @@ package com.oracle.javafx.scenebuilder.kit.fxom;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -50,6 +52,7 @@ import com.oracle.javafx.scenebuilder.kit.JfxInitializer;
 import com.oracle.javafx.scenebuilder.kit.fxom.FXOMDocument.FXOMDocumentSwitch;
 import com.oracle.javafx.scenebuilder.kit.fxom.glue.GlueCharacters;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -67,6 +70,11 @@ public class FXOMSaverUpdateImportInstructionsTest {
     @BeforeAll
     public static void initialize() {
         JfxInitializer.initialize();
+    }
+    
+    @BeforeEach
+    public void clear() {
+        fxomDocument = null;
     }
 
     @Test
@@ -203,6 +211,15 @@ public class FXOMSaverUpdateImportInstructionsTest {
         });
 
     }
+    
+    @Test
+    public void testThatFxmlCannotBeLoadedWithJavascriptReference() {
+       var t = assertThrows(UncheckedIOException.class, 
+                ()->setupTestCase(FxmlTestInfo.HEADER_WITH_JAVASCRIPT_REFERENCE));
+       
+       assertTrue(t.getMessage()
+                   .contains("javafx.fxml.LoadException: JavaScript script engine is disabled."));
+    }
 
     @Test
     public void testImportsWithComments() {
@@ -212,7 +229,7 @@ public class FXOMSaverUpdateImportInstructionsTest {
         fxomDocument.getFxomRoot().collectDeclaredClasses().forEach(dc -> {
             imports.add(dc.getName());
         });
-
+        
         assertEquals(5, fxomDocument.getGlue().getHeader().size(), "comment line should not be removed");
 
         assertTrue(fxomDocument.getGlue().getHeader().get(1) instanceof GlueCharacters, "second glue node should be a comment");
@@ -271,7 +288,7 @@ public class FXOMSaverUpdateImportInstructionsTest {
             // Creates new FXML file with the new output
             Files.write(pathToTestFXML, savedFXML.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new UncheckedIOException(e);
         }
 
     }
@@ -285,7 +302,7 @@ public class FXOMSaverUpdateImportInstructionsTest {
 
             fxomDocument = new FXOMDocument(fxmlString, location, null, null, FXOMDocumentSwitch.NORMALIZED);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new UncheckedIOException(e);
         }
     }
 
@@ -313,7 +330,8 @@ public class FXOMSaverUpdateImportInstructionsTest {
         WITH_MORE_WILDCARDS("WithMoreWildcards"),
         WITH_WILDCARD("WithWildcard"),
         WITH_GLUE_ELEMENTS("WithGlueElements"),
-        PUBLIC_STATIC_IMPORT("PublicStaticImport");
+        PUBLIC_STATIC_IMPORT("PublicStaticImport"),
+        HEADER_WITH_JAVASCRIPT_REFERENCE("HeaderWithJavascriptReference");
 
         private String filename;
         FxmlTestInfo(String filename) {
