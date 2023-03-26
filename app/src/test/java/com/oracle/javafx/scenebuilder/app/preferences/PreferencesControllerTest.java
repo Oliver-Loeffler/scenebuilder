@@ -42,7 +42,7 @@ class PreferencesControllerTest {
 
 	@Test
 	void that_preferences_release_node_name_matches_app_version() {
-		assertEquals("SB_"+AppSettings.getSceneBuilderVersion(), 
+		assertEquals("SB_LE_"+AppSettings.getSceneBuilderVersion(), 
 					 PreferencesController.SB_RELEASE_NODE);
 	}
 
