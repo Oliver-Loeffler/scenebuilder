@@ -153,3 +153,6 @@ This project makes use of [EditorConfig](https://editorconfig.org/) which is [di
 
 EditorConfig can automatically correct possible formatting violations when executed as a Maven plug-in: `mvn editorconfig:format`.
 
+## JDeploy
+
+9929b0830fbe340931dd9c5bc58a75168ab9a21442641445bf9d05d818a03830
