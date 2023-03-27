@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, Gluon and/or its affiliates.
+ * Copyright (c) 2023, Gluon and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -167,7 +167,7 @@ public class SkeletonCreatorJRuby implements SkeletonCreator {
         if (parameters.length > 0) {
             sb.append("<"); //NOI18N
             String sep = ""; //NOI18N
-            for (@SuppressWarnings("unused") TypeVariable<?> ignored : parameters) {
+            for (TypeVariable<?> ignored : parameters) {
                 sb.append(sep);
                 sb.append("?"); //NOI18N
                 sep = ", "; //NOI18N
