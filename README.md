@@ -152,7 +152,3 @@ There will be a report for each sub-project, one for `app` and one for `kit`.
 This project makes use of [EditorConfig](https://editorconfig.org/) which is [directly supported](https://editorconfig.org/#pre-installed) by IntelliJ IDEA. There are plugins for NetBeans, Eclipse and Visual Studio and [more](https://editorconfig.org/#download). EditorConfig ensures via configuration in `.editorconfig` file, that the proper indentation is used.
 
 EditorConfig can automatically correct possible formatting violations when executed as a Maven plug-in: `mvn editorconfig:format`.
-
-## JDeploy
-
-9929b0830fbe340931dd9c5bc58a75168ab9a21442641445bf9d05d818a03830
