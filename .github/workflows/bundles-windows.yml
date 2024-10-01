@@ -1,7 +1,7 @@
 name: Windows Bundles
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       app-version:
         required: true
@@ -21,13 +21,6 @@ on:
         default: false
         required: false
         type: boolean
-    secrets:
-      WINDOWS_CERTIFICATE:
-        required: true
-      WINDOWS_PASSWORD:
-        required: true
-      WINDOWS_CERTNAME:
-        required: true
 
 jobs:
   build:
@@ -97,16 +90,6 @@ jobs:
           PROJECT_VERSION: ${{ inputs.project-version }}
           APP_VERSION: ${{ inputs.app-version }}
           INSTALL_DIR: app\target\install
-
-
-      - name: Codesign
-        uses: erwin1/code-sign-action@master
-        if: false
-        with:
-          certificate: '${{ secrets.WINDOWS_CERTIFICATE }}'
-          password: '${{ secrets.WINDOWS_PASSWORD }}'
-          certificatename: '${{ secrets.WINDOWS_CERTNAME }}'
-          folder: 'app/target/install'
 
       - name: Upload Artifact (per user)
         uses: actions/upload-artifact@v4
